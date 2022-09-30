@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Search from "./components/Pages/Search";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

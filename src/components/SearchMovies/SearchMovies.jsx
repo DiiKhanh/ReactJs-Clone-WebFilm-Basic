@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { getSearchMovies, setMoviesDetail } from "../store/actions";
+import {
+  getSearchMovies,
+  setMoviesDetail,
+} from "../../store/MoviesSlice/MoviesSlice";
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 

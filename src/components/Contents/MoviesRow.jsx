@@ -5,7 +5,8 @@ import { SmoothHorizontalScrolling } from "../../utils";
 import { useEffect } from "react";
 import { useViewport } from "../CustomHooks/index";
 import { useDispatch } from "react-redux";
-import { setMoviesDetail } from "../store/actions";
+import { setMoviesDetail } from "../../store/MoviesSlice/MoviesSlice";
+
 
 function MoviesRow(props) {
   const sliderRef = useRef();
@@ -65,50 +66,51 @@ function MoviesRow(props) {
   return (
     <MoviesRowContainer draggable="false" id={idSection}>
       <h1 className="heading">{title}</h1>
-      <MoviesSlider
-        ref={sliderRef}
-        draggable="true"
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDragEnter={onDragEnter}
-        style={
-          movies && movies.length > 0
-            ? {
-                gridTemplateColumns: `repeat(${movies.length}, ${
-                  windowWidth > 1200
-                    ? "360px"
-                    : windowWidth > 992
-                    ? "300px"
-                    : windowWidth > 768
-                    ? "250px"
-                    : "200px"
-                })`,
+     
+        <MoviesSlider
+          ref={sliderRef}
+          draggable="true"
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragEnter={onDragEnter}
+          style={
+            movies && movies.length > 0
+              ? {
+                  gridTemplateColumns: `repeat(${movies.length}, ${
+                    windowWidth > 1200
+                      ? "360px"
+                      : windowWidth > 992
+                      ? "300px"
+                      : windowWidth > 768
+                      ? "250px"
+                      : "200px"
+                  })`,
+                }
+              : {}
+          }
+        >
+          {movies &&
+            movies.length > 0 &&
+            movies.map((movie, index) => {
+              if (movie.poster_path && movie.backdrop_path !== null) {
+                let imageUrl = isNetflix
+                  ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
+                  : `https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`;
+                return (
+                  <div
+                    key={index}
+                    className="movieItem"
+                    ref={movieRef}
+                    draggable="false"
+                    onClick={() => handleSetMovie(movie)}
+                  >
+                    <img src={imageUrl} alt="" draggable="false" />
+                    <div className="movieName">{movie.title || movie.name}</div>
+                  </div>
+                );
               }
-            : {}
-        }
-      >
-        {movies &&
-          movies.length > 0 &&
-          movies.map((movie, index) => {
-            if (movie.poster_path && movie.backdrop_path !== null) {
-              let imageUrl = isNetflix
-                ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
-                : `https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`;
-              return (
-                <div
-                  key={index}
-                  className="movieItem"
-                  ref={movieRef}
-                  draggable="false"
-                  onClick={() => handleSetMovie(movie)}
-                >
-                  <img src={imageUrl} alt="" draggable="false" />
-                  <div className="movieName">{movie.title || movie.name}</div>
-                </div>
-              );
-            }
-          })}
-      </MoviesSlider>
+            })}
+        </MoviesSlider>
       <div
         className={`btnLeft ${isNetflix && "isNetflix"}`}
         onClick={handleScrollLeft}

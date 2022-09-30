@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 import { useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import { setMoviesDetail } from "../store/actions";
+import { setMoviesDetail } from "../../store/MoviesSlice/MoviesSlice";
 import { AiOutlineClose } from "react-icons/ai";
 
 function MoviesDetail(props) {
@@ -30,7 +30,7 @@ function MoviesDetail(props) {
         }
       >
         <div className="container">
-          <AiOutlineClose className="close" onClick={handleCloseModal}/>
+          <AiOutlineClose className="close" onClick={handleCloseModal} />
           <div className="movieInfo">
             <h2 className="movieTitle">
               {movie && (movie.name || movie.title)}

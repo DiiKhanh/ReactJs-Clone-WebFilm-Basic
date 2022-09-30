@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaArrowAltCircleUp } from "react-icons/fa";
 import MoviesRow from "./MoviesRow";
-import * as ACTIONS from "../store/actions";
+import * as ACTIONS from "../../store/MoviesSlice/MoviesSlice";
 import styled from "styled-components";
 import { animateScroll as scroll } from "react-scroll";
 import { useScrollY } from "../CustomHooks";
@@ -14,6 +14,7 @@ const ScrollToTop = () => {
 function Contents() {
   const dispatch = useDispatch();
   const [scrollY] = useScrollY();
+
   const {
     NetflixOriginals,
     TrendingMovies,
@@ -23,10 +24,12 @@ function Contents() {
     HorrorMovies,
     RomanceMovies,
     DocumentariesMovies,
+    loading,
   } = useSelector((state) => state.infoMovies);
 
   useEffect(() => {
     dispatch(ACTIONS.getNetflixOriginals());
+    dispatch(ACTIONS.getActionMovies());
     dispatch(ACTIONS.getTrendingMovies());
     dispatch(ACTIONS.getTopratedMovies());
     dispatch(ACTIONS.getComedyMovies());
@@ -39,6 +42,7 @@ function Contents() {
     <div>
       <MoviesRow
         movies={NetflixOriginals}
+        loading={loading}
         title="Netflix Originals"
         isNetflix={true}
         idSection="netflix"
